@@ -7,6 +7,11 @@ add_subdirectory(3rd-party)
 
 add_executable(${PROJECT_NAME})
 
+find_package(OpenMP)
+if(OpenMP_CXX_FOUND)
+    target_link_libraries(${PROJECT_NAME} PRIVATE OpenMP::OpenMP_CXX)
+endif()
+
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 
 function(aux_include_directory dir variable)
@@ -37,3 +42,7 @@ target_sources(
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE ImGui-SFML::ImGui-SFML)
+
+# Additional resources like images and fonts
+# We want the to copy from permanent folder "res" to temporary folder "build"
+# configure_file(res/OpenSans-Regular.ttf OpenSans-Regular.ttf COPYONLY)
